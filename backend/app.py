@@ -1,12 +1,31 @@
 ﻿import os
 import sys
 from flask import Flask, jsonify
+from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy # NEW
+from flask_migrate import Migrate # NEW
 
 # Define the absolute, hardcoded path to the backend directory
-BACKEND_DIR = r'E:\Eximius\backend'
+BACKEND_DIR = r'E:\Eximius_Working\backend'
+
+# --- DATABASE CONFIGURATION ---
+basedir = os.path.abspath(os.path.dirname(__file__))
+# Use three slashes for absolute path on Windows when using SQLite
+DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db') 
 
 # Initialize the Flask application
 app = Flask(__name__) 
+
+# Configure Flask
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # Recommended setting
+
+# Initialize Extensions
+db = SQLAlchemy(app) # NEW
+migrate = Migrate(app, db) # NEW
+
+# Configure CORS (still needed for when we run the actual server)
+CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:8000"}})
 
 # --- API Route ---
 @app.route('/api/health')
@@ -15,40 +34,25 @@ def health_check():
 
 @app.route('/api/items')
 def get_items():
-    items = ["Eximius Item A", "Eximius Item B", "Eximius Item C"]
-    # The JSON response must be a key-value pair, not just a list for a stable API
-    return jsonify(items=items), 200
+    """Returns the count of Users in the database for verification."""
+    
+    # Count how many users exist in the database (should be 0 for now)
+    user_count = db.session.scalar(db.select(db.func.count(User.id)))
+    
+    # Return the count as proof of successful database connection and query
+    response_data = {
+        "message": "Database connection verified.",
+        "user_count": user_count,
+        "note": "Next step is to add initial data."
+    }
+    return jsonify(response_data), 200
 
-# --- CATCH-ALL ROUTE ---
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
 def catch_all(path):
     return jsonify(error="API Only. Route Not Found."), 404
 
 if __name__ == '__main__':
-    # We will use this block to run the internal unit tests one last time
-    import unittest
+    app.run(debug=True, host='0.0.0.0', port=5000)
 
-    class TestAppRoutes(unittest.TestCase):
-        def setUp(self):
-            self.app = app.test_client()
-            self.app.testing = True
 
-        def test_1_api_health(self):
-            response = self.app.get('/api/health')
-            self.assertEqual(response.status_code, 200, "API Health check failed.")
 
-        def test_2_api_items(self):
-            response = self.app.get('/api/items')
-            self.assertEqual(response.status_code, 200, "API Items route failed.")
-            self.assertIn(b'Eximius Item B', response.data, "API Items response content incorrect.")
 
-    print("Running FINAL BARE-BONES Internal Unit Tests...")
-    loader = unittest.TestLoader()
-    suite = loader.loadTestsFromTestCase(TestAppRoutes)
-    runner = unittest.TextTestRunner(verbosity=2)
-    result = runner.run(suite)
-
-    if not result.wasSuccessful():
-        sys.exit(1) # Fail the process if tests fail
-    
