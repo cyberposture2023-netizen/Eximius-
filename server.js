@@ -11,12 +11,19 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
     console.error('Database connection error:', err.message);
   } else {
     console.log('Connected to the SQLite database.');
-    // Create Users table if it does not exist
-    db.run(CREATE TABLE IF NOT EXISTS users (
+    // CREATE TABLE using a template literal (backticks )
+    db.run(\CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       username TEXT UNIQUE,
       email TEXT UNIQUE
-    ));
+    )\, (err) => { // Added callback for error logging
+        if (err) {
+            console.error('Table creation error:', err.message);
+        } else {
+            // Optional: Log success
+            console.log('Users table checked/created.');
+        }
+    });
   }
 });
 
@@ -31,5 +38,5 @@ app.get('/api/health', (req, res) => {
 
 // Start the Server
 app.listen(PORT, () => {
-  console.log(Server running on http://localhost:);
+  console.log(\Server running on http://localhost:\);
 });
