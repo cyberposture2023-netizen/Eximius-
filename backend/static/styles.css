@@ -1,0 +1,12 @@
+﻿/* Eximius Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+h1 {
+    color: #0056b3; /* A shade of blue */
+}

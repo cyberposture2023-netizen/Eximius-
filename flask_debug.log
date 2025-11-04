@@ -1,0 +1,21 @@
+& : The term 'D:\Eximius\backend\.venv\Scripts\Activate.ps1' is not recognized as the name of a cmdlet, function, 
+script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is 
+correct and try again.
+At line:1 char:3
++ & 'D:\Eximius\backend\.venv\Scripts\Activate.ps1'; cd 'D:\Eximius\bac ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (D:\Eximius\back...ts\Activate.ps1:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+ * Tip: There are .env files present. Install python-dotenv to use them.
+[DEBUG] Starting path configuration...
+[DEBUG] BACKEND_DIR: D:\Eximius\backend
+[DEBUG] ROOT_DIR: D:\Eximius
+[DEBUG] FRONTEND_PUBLIC_DIR: D:\Eximius\frontend\public
+[DEBUG] FRONTEND_SRC_DIR: D:\Eximius\frontend\src
+[DEBUG] Public dir exists? True
+[DEBUG] index.html exists? True
+[DEBUG] Src dir exists? True
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit

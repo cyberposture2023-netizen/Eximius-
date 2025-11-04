@@ -1,0 +1,26 @@
+﻿{
+    "name":  "backend",
+    "version":  "1.0.0",
+    "description":  "",
+    "main":  "index.js",
+    "scripts":  {
+                    "test":  "echo \"Error: no test specified\" \u0026\u0026 exit 1",
+                    "dev":  "nodemon api.js"
+                },
+    "keywords":  [
+
+                 ],
+    "author":  "",
+    "license":  "ISC",
+    "type":  "commonjs",
+    "dependencies":  {
+                         "@prisma/client":  "^6.18.0",
+                         "bcryptjs":  "^3.0.3",
+                         "dotenv":  "^17.2.3",
+                         "express":  "^5.1.0"
+                     },
+    "devDependencies":  {
+                            "nodemon":  "^3.1.10",
+                            "prisma":  "^6.18.0"
+                        }
+}
