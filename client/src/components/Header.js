@@ -1,15 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// Basic navigation bar. We will improve this later.
-export default function Header() {
+const Header = () => {
   return (
-    <nav style={{ padding: '1rem', backgroundColor: '#eee', borderBottom: '1px solid #ccc' }}>
-      <Link to="/" style={{ marginRight: '1rem' }}>Dashboard</Link>
-      <Link to="/new" style={{ marginRight: '1rem' }}>New Exception</Link>
-      <Link to="/risk-register" style={{ marginRight: '1rem' }}>Risk Register</Link>
-      <Link to="/controls" style={{ marginRight: '1rem' }}>Controls</Link>
-      <Link to="/login" style={{ float: 'right' }}>Login/Logout</Link>
-    </nav>
+    <header className="header">
+      <div className="logo">
+        <Link to="/">Eximius</Link>
+      </div>
+      <nav className="nav">
+        <ul>
+          <li>
+            <Link to="/">Dashboard</Link>
+          </li>
+          <li>
+            {/* This is the link we are fixing */}
+            <Link to="/new-exception">New Exception</Link>
+          </li>
+          <li>
+            <Link to="/risk-register">Risk Register</Link>
+          </li>
+          <li>
+            <Link to="/controls">Controls</Link>
+          </li>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        </ul>
+      </nav>
+    </header>
   );
-}
+};
+
+export default Header;
