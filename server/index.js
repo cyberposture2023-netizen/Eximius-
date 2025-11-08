@@ -10,9 +10,15 @@ connectDB(); // Initialize database connection
 
 const app = express();
 
+// === Route Imports ===
+const exceptionRoutes = require('./routes/exceptionRoutes');
+
 // Middleware
 app.use(cors());
-app.use(express.json()); // for parsing application/json
+app.use(express.json());
+
+// === API Routes ===
+app.use('/api/exceptions', exceptionRoutes); // for parsing application/json
 
 // ---
 // API Routes
@@ -53,3 +59,4 @@ if (portToUse) {
         });
     });
 }
+
