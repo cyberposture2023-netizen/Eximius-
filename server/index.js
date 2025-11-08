@@ -1,6 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const portfinder = require('portfinder');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+
+// --- Load Config ---
+dotenv.config(); // Loads variables from .env file
+connectDB(); // Initialize database connection
 
 const app = express();
 
@@ -20,10 +26,8 @@ app.get('/api/health', (req, res) => {
 // ---
 // Start Server with Port Conflict Handling (Rule 6)
 // ---
+// (Rest of the file is unchanged)
 const defaultPort = 5000;
-
-// Use a fixed port if 'PORT' env var is set (for dev/proxy),
-// otherwise use portfinder (for production/flexibility).
 const portToUse = process.env.PORT ? parseInt(process.env.PORT) : null;
 
 if (portToUse) {
