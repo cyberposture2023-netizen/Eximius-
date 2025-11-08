@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import axios from 'axios'; // Import axios
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import axios from 'axios';
+import './index.css';
+
+// Import Layout/Components
 import Layout from './components/Layout';
+
+// Import Pages
 import Dashboard from './pages/Dashboard';
 import NewException from './pages/NewException';
 import RiskRegister from './pages/RiskRegister';
@@ -10,48 +15,38 @@ import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 
 function App() {
-  // --- Test Server Connection ---
-  const [serverStatus, setServerStatus] = useState('Connecting to server...');
+  const [health, setHealth] = useState('Checking API status...');
 
   useEffect(() => {
-    // Use a try-catch block to handle potential errors
-    const checkServerHealth = async () => {
+    // Check API health
+    const checkApiHealth = async () => {
       try {
-        // 'axios.get' will automatically use the "proxy" in package.json
-        // So this call goes to http://localhost:5000/api/health
-        const response = await axios.get('/api/health');
-        if (response.data.status === 'ok') {
-          setServerStatus(Server Status: );
-        } else {
-          setServerStatus('Server responded, but not OK.');
-        }
+        const { data } = await axios.get('/api/health'); // Proxy handles this
+        setHealth(`API Status: ${data.message} | Server Time: ${data.timestamp}`);
       } catch (error) {
-        console.error('Error connecting to server:', error);
-        setServerStatus('Failed to connect to server. (Is it running?)');
+        console.error('API health check failed:', error);
+        setHealth('API Status: OFFLINE');
       }
     };
 
-    checkServerHealth();
-  }, []); // Empty array means this runs once on component mount
-  // --- End Test Server Connection ---
+    checkApiHealth();
+  }, []);
 
   return (
-    <BrowserRouter>
-      {/* Display server status on all pages (for testing) */}
-      <div style={{ backgroundColor: '#282c34', color: 'white', padding: '5px', textAlign: 'center', fontSize: '0.8rem' }}>
-        {serverStatus}
-      </div>
+    <Router>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout apiStatus={health} />}>
+          {/* Outlet renders these nested routes */}
           <Route index element={<Dashboard />} />
-          <Route path="new" element={<NewException />} />
+          <Route path="new-exception" element={<NewException />} />
           <Route path="risk-register" element={<RiskRegister />} />
           <Route path="controls" element={<Controls />} />
-          <Route path="login" element={<Login />} />
           <Route path="*" element={<NotFound />} />
         </Route>
+        {/* Login page has no Layout */}
+        <Route path="/login" element={<Login />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 
