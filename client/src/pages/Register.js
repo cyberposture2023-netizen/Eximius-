@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-// We will add imports for axios, useNavigate, etc., in the next step
+import axios from 'axios'; // Import axios
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const Register = () => {
   });
 
   const { name, email, password, password2 } = formData;
+  const navigate = useNavigate(); // Initialize navigate
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -18,15 +20,41 @@ const Register = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== password2) {
       alert('Passwords do not match');
-    } else {
-      // We will add the API call here in the next step
-      console.log('Form submitted:', formData);
-      alert('Registration form submitted. (API call not hooked up yet)');
+      return;
+    }
+
+    try {
+      // This is the data we will send to the API
+      const userData = {
+        name,
+        email,
+        password,
+      };
+
+      // Call the API endpoint we created
+      const response = await axios.post('/api/users', userData);
+
+      if (response.data) {
+        // Save the returned user data (including the token) to localStorage
+        // This is how we "log in" the user
+        localStorage.setItem('eximiusUser', JSON.stringify(response.data));
+
+        // Redirect to the dashboard
+        navigate('/');
+      }
+    } catch (error) {
+      // Handle errors (e.g., user already exists)
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        'An unknown error occurred';
+      console.error('Registration failed:', message);
+      alert(`Registration failed: ${message}`);
     }
   };
 
