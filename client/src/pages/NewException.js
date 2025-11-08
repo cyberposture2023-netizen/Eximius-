@@ -1,1 +1,12 @@
-export default function NewException() { return <h2>New Exception Intake</h2>; }
+import React from 'react';
+
+const NewException = () => {
+  return (
+    <div>
+      <h2>Create New Exception</h2>
+      <p>This is the New Exception page. The 404 error is fixed.</p>
+    </div>
+  );
+};
+
+export default NewException;
