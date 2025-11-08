@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 
 const NewException = () => {
@@ -20,7 +20,7 @@ const NewException = () => {
 
     try {
       // Send the data to the backend API endpoint
-      const { data } = await axios.post('/api/exceptions', {
+      const { data } = await api.post('/exceptions', {
         title,
         description,
         // Status defaults to 'Pending' in our schema
@@ -69,3 +69,4 @@ const NewException = () => {
 };
 
 export default NewException;
+

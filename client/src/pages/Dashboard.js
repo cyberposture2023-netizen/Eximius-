@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 
 const Dashboard = () => {
   const [exceptions, setExceptions] = useState([]);
@@ -12,7 +12,7 @@ const Dashboard = () => {
       try {
         setLoading(true);
         // Make the GET request to our API
-        const { data } = await axios.get('/api/exceptions');
+        const { data } = await api.get('/exceptions');
         setExceptions(data); // Store the data in state
         setError(null);
       } catch (err) {
@@ -54,3 +54,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
