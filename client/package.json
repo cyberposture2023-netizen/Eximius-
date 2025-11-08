@@ -14,10 +14,10 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
-  "scripts": {
-        "start": "concurrently "npm:start:react" "npm:start:server"",
+    "scripts": {
     "start:react": "react-scripts start",
-    "start:server": "cd ../server && npm run dev",
+    "start:server": "npm start --prefix ../server",
+    "start": "concurrently \"npm:start:react\" \"npm:start:server\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -44,4 +44,5 @@
     "concurrently": "^9.2.1"
   }
 , "proxy": "http://localhost:5000" }
+
 
