@@ -39,7 +39,7 @@ const portToUse = process.env.PORT ? parseInt(process.env.PORT) : null;
 if (portToUse) {
     // Fixed port logic
     app.listen(portToUse, () => {
-        console.log(Server successfully started on fixed port );
+        console.log(Server running on port 5000);
     });
 } else {
     // Port-finding logic
@@ -59,4 +59,5 @@ if (portToUse) {
         });
     });
 }
+
 
