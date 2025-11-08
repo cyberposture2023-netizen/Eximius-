@@ -8,14 +8,15 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.13.2",
+    "cross-env": "^10.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.5",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
-    "scripts": {
-    "start:react": "react-scripts start",
+  "scripts": {
+    "start:react": "cross-env CI=true react-scripts start",
     "start:server": "npm start --prefix ../server",
     "start": "concurrently \"npm:start:react\" \"npm:start:server\"",
     "build": "react-scripts build",
@@ -42,7 +43,7 @@
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
-  }
-, "proxy": "http://localhost:5000" }
-
+  },
+  "proxy": "http://localhost:5000"
+}
 
