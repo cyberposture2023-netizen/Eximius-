@@ -58,6 +58,42 @@ const generateToken = (id) => {
   });
 };
 
+
+// @desc    Authenticate (login) a user
+// @route   POST /api/users/login
+// @access  Public
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    if (!email || !password) {
+      res.status(400);
+      throw new Error('Please provide email and password');
+    }
+
+    // Check for user
+    const user = await User.findOne({ email });
+
+    // Check password
+    if (user && (await bcrypt.compare(password, user.password))) {
+      // User is valid, send back data and token
+      res.status(200).json({
+        _id: user.id,
+        name: user.name,
+        email: user.email,
+        token: generateToken(user._id),
+      });
+    } else {
+      res.status(400);
+      throw new Error('Invalid credentials');
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message || 'Server Error' });
+  }
+};
+
 module.exports = {
   registerUser,
+  loginUser,
 };
+
