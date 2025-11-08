@@ -21,20 +21,31 @@ app.get('/api/health', (req, res) => {
 // Start Server with Port Conflict Handling (Rule 6)
 // ---
 const defaultPort = 5000;
-portfinder.setBasePort(defaultPort);
 
-portfinder.getPort((err, port) => {
-    if (err) {
-        console.error("Error finding a free port:", err);
-        process.exit(1);
-    }
-    
-    // If the port found is not the default, log it.
-    if (port !== defaultPort) {
-        console.log(Default port  is busy. Starting on port .);
-    }
+// Use a fixed port if 'PORT' env var is set (for dev/proxy),
+// otherwise use portfinder (for production/flexibility).
+const portToUse = process.env.PORT ? parseInt(process.env.PORT) : null;
 
-    app.listen(port, () => {
-        console.log(Server successfully started on port );
+if (portToUse) {
+    // Fixed port logic
+    app.listen(portToUse, () => {
+        console.log(Server successfully started on fixed port );
     });
-});
+} else {
+    // Port-finding logic
+    portfinder.setBasePort(defaultPort);
+    portfinder.getPort((err, port) => {
+        if (err) {
+            console.error("Error finding a free port:", err);
+            process.exit(1);
+        }
+        
+        if (port !== defaultPort) {
+            console.log(Default port  is busy. Starting on port .);
+        }
+
+        app.listen(port, () => {
+            console.log(Server successfully started on port );
+        });
+    });
+}
