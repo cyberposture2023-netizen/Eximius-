@@ -1,15 +1,22 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
 import Header from './Header';
+import { Outlet } from 'react-router-dom'; // <-- IMPORT ADDED
 
-// Main application layout
-export default function Layout() {
+// This is the main layout wrapper
+// We'll receive the apiStatus prop from App.js
+const Layout = ({ apiStatus }) => {
   return (
-    <div>
+    <div className="app-container">
       <Header />
-      <main style={{ padding: '1rem' }}>
-        <Outlet /> {/* Child pages will be rendered here */}
+      <main className="main-content">
+        {/* Child routes (Dashboard, NewException, etc.) will be rendered here */}
+        <Outlet /> {/* <-- COMPONENT ADDED */}
       </main>
+      <footer className="footer">
+        <p>{apiStatus}</p>
+      </footer>
     </div>
   );
-}
+};
+
+export default Layout;
