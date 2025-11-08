@@ -13,12 +13,14 @@ const app = express();
 
 // === Route Imports ===
 const exceptionRoutes = require('./routes/exceptionRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 // Body Parser Middleware
 app.use(express.json());
 
 // === API Routes ===
 app.use('/api/exceptions', exceptionRoutes);
+app.use('/api/users', userRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -48,3 +50,4 @@ portfinder.getPort((err, port) => {
     console.log(`Server running on port ${port}`);
   });
 });
+
