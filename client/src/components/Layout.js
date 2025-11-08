@@ -1,14 +1,12 @@
 import React from 'react';
 import Header from './Header';
-import { Outlet } from 'react-router-dom'; // <-- IMPORT
-
+import { Outlet } from 'react-router-dom';
 const Layout = ({ apiStatus }) => {
   return (
     <div className="app-container">
       <Header />
       <main className="main-content">
-        {/* Child routes (Dashboard, NewException, etc.) will be rendered here */}
-        <Outlet /> {/* <-- COMPONENT */}
+        <Outlet />
       </main>
       <footer className="footer">
         <p>{apiStatus}</p>
@@ -16,5 +14,4 @@ const Layout = ({ apiStatus }) => {
     </div>
   );
 };
-
 export default Layout;
