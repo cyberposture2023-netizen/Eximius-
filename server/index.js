@@ -13,14 +13,14 @@ const app = express();
 
 // === Route Imports ===
 const exceptionRoutes = require('./routes/exceptionRoutes');
-const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/userRoutes'); // <-- The missing import
 
 // Body Parser Middleware
 app.use(express.json());
 
 // === API Routes ===
 app.use('/api/exceptions', exceptionRoutes);
-app.use('/api/users', userRoutes);
+app.use('/api/users', userRoutes); // <-- The missing route handler
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -46,8 +46,6 @@ portfinder.getPort((err, port) => {
 
   // Start the server
   app.listen(port, () => {
-    // This is the 100% correct line
     console.log(`Server running on port ${port}`);
   });
 });
-
