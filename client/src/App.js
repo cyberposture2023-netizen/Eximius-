@@ -9,6 +9,7 @@ import RiskRegister from './pages/RiskRegister';
 import Controls from './pages/Controls';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
+import Register from './pages/Register';
 function App() {
   const [health, setHealth] = useState('Checking API status...');
   useEffect(() => {
@@ -34,8 +35,12 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/login" element={<Login />} />
+
+        {/* Auth routes */} 
+        <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
   );
 }
 export default App;
+
